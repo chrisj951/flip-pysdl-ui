@@ -9,7 +9,7 @@ class RomUtils:
     
     def get_roms(self, system):
         return [
-            filename for filename in os.listdir(os.path.join(self.roms_path, system))
+            filename for filename in os.listdir(directory := os.path.join(self.roms_path, system))
             if not (
                 os.path.isdir(os.path.join(directory, filename))
                 or any(filename.endswith(ext) for ext in (".xml", ".txt", ".db"))
