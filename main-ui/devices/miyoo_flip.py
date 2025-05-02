@@ -148,23 +148,13 @@ class MiyooFlip(Device):
         
     @throttle.limit_refresh(15)
     def get_charge_status(self):
-        output = subprocess.check_output(
-            ["cat", "/sys/class/power_supply/usb/online"],
-            text=True
-        )
+        with open("/sys/class/power_supply/usb/online", "r") as usb:
+            return int(usb.read().strip()) == 1
 
-        if(1 == int(output.strip())):
-           return ChargeStatus.CHARGING
-        else:
-            return ChargeStatus.DISCONNECTED
-    
     @throttle.limit_refresh(15)
     def get_battery_percent(self):
-        output = subprocess.check_output(
-            ["cat", "/sys/class/power_supply/battery/capacity"],
-            text=True
-        )
-        return int(output.strip()) 
+        with open("/sys/class/power_supply/battery/capacity", "r") as capacity:
+            return int(capacity.read().strip())
     
     def get_app_finder(self):
         return MiyooAppFinder()
