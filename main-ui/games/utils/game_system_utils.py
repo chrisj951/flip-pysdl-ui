@@ -24,7 +24,7 @@ class GameSystemUtils:
         
         # Step 1: Get list of folders in self.emu_path
         try:
-            folders = [*filter(lambda name: os.path.isdir(os.path.join(self.emu_path, name))_, os.listdir(self.emu_path))]
+            folders = [*filter(lambda name: os.path.isdir(os.path.join(self.emu_path, name)), os.listdir(self.emu_path))]
         except FileNotFoundError:
             return []  # or handle the error as needed
 
