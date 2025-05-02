@@ -79,7 +79,7 @@ class MiyooFlip(Device):
     @property
     def large_grid_spacing_multiplier(self):
         icon_size = 140
-        return icon_size+int(self.large_grid_x_offset/2)
+        return icon_size + self.large_grid_x_offset // 2
     
     def run_game(self, file_path):
         print(f"About to launch /mnt/sdcard/Emu/.emu_setup/standard_launch.sh {file_path}")
