@@ -149,7 +149,7 @@ class MiyooFlip(Device):
     @throttle.limit_refresh(15)
     def get_charge_status(self):
         with open("/sys/class/power_supply/usb/online", "r") as usb:
-            return int(usb.read().strip()) == 1
+            return ChargeStatus.CHARGING if int(usb.read().strip()) == 1 else ChargeStatus.DISCONNECTED
 
     @throttle.limit_refresh(15)
     def get_battery_percent(self):
