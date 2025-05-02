@@ -118,10 +118,8 @@ class MiyooFlip(Device):
     
     def get_wifi_link_quality_level(self):
         try:
-            output = subprocess.check_output(
-                ["cat", "/proc/net/wireless"],
-                text=True
-            ).strip().splitlines()
+            with open("/proc/net/wireless", "r") as wireless_info:
+                output = [*map(str.strip, wireless_info.readlines())]
             
             if len(output) >= 3:
                 # The 3rd line contains the actual wireless stats
