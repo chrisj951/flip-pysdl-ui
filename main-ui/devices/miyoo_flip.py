@@ -122,14 +122,8 @@ class MiyooFlip(Device):
                 output = [line.strip() for line in wireless_info.readlines()]
             
             if len(output) >= 3:
-                # The 3rd line contains the actual wireless stats
-                data_line = output[2]
-                parts = data_line.split()
-                
-                # parts[2] is the link quality, parts[3] is the level
-                link_level = float(parts[3].strip('.'))  # Remove trailing dot
-                return int(link_level)
-        except Exception as e:
+                return int(float(output[2].split()[3].strip(".")))
+        except Exception as e: # maybe log, or no need to assign exception?
             return 0
     
     @throttle.limit_refresh(15)
