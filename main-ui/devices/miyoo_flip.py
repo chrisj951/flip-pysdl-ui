@@ -75,7 +75,7 @@ class MiyooFlip(Device):
     @property
     def large_grid_spacing_multiplier(self):
         icon_size = 140
-        return icon_size+int(self.large_grid_x_offset/2)
+        return icon_size + self.large_grid_x_offset // 2
     
     def run_game(self, file_path):
         print(f"About to launch /mnt/sdcard/Emu/.emu_setup/standard_launch.sh {file_path}")
@@ -114,20 +114,12 @@ class MiyooFlip(Device):
     
     def get_wifi_link_quality_level(self):
         try:
-            output = subprocess.check_output(
-                ["cat", "/proc/net/wireless"],
-                text=True
-            ).strip().splitlines()
+            with open("/proc/net/wireless", "r") as wireless_info:
+                output = [line.strip() for line in wireless_info.readlines()]
             
             if len(output) >= 3:
-                # The 3rd line contains the actual wireless stats
-                data_line = output[2]
-                parts = data_line.split()
-                
-                # parts[2] is the link quality, parts[3] is the level
-                link_level = float(parts[3].strip('.'))  # Remove trailing dot
-                return int(link_level)
-        except Exception as e:
+                return int(float(output[2].split()[3].strip(".")))
+        except Exception as e: # maybe log, or no need to assign exception?
             return 0
     
     @throttle.limit_refresh(15)
@@ -144,23 +136,13 @@ class MiyooFlip(Device):
         
     @throttle.limit_refresh(15)
     def get_charge_status(self):
-        output = subprocess.check_output(
-            ["cat", "/sys/class/power_supply/usb/online"],
-            text=True
-        )
+        with open("/sys/class/power_supply/usb/online", "r") as usb:
+            return ChargeStatus.CHARGING if usb.read().strip() == "1" else ChargeStatus.DISCONNECTED
 
-        if(1 == int(output.strip())):
-           return ChargeStatus.CHARGING
-        else:
-            return ChargeStatus.DISCONNECTED
-    
     @throttle.limit_refresh(15)
     def get_battery_percent(self):
-        output = subprocess.check_output(
-            ["cat", "/sys/class/power_supply/battery/capacity"],
-            text=True
-        )
-        return int(output.strip()) 
+        with open("/sys/class/power_supply/battery/capacity", "r") as capacity:
+            return int(capacity.read().strip())
     
     def get_app_finder(self):
         return MiyooAppFinder()

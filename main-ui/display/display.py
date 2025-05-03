@@ -78,7 +78,7 @@ class Display:
         return LoadedFont(font,line_height)
         
     def clear(self, screen):
-        self._check_for_bg_change();
+        self._check_for_bg_change()
         sdl2.SDL_RenderCopy(self.renderer.sdlrenderer, self.background_texture, None, None)
         self.top_bar.render_top_bar(screen)
     
