@@ -133,38 +133,19 @@ class Theme():
     
     def get_font(self, font_purpose : FontPurpose):
         match font_purpose:
-            case FontPurpose.TOP_BAR_TEXT:
-                return os.path.join(self.path,self.grid["font"]) 
-            case FontPurpose.BATTERY_PERCENT:
-                return os.path.join(self.path,self.grid["font"]) 
-            case FontPurpose.GRID_ONE_ROW:
-                return os.path.join(self.path,self.grid["font"]) 
-            case FontPurpose.GRID_MULTI_ROW:
-                return os.path.join(self.path,self.grid["font"]) 
-            case FontPurpose.LIST:
-                return os.path.join(self.path,self.grid["font"]) 
-            case FontPurpose.DESCRIPTIVE_LIST_TITLE:
-                return os.path.join(self.path,self.grid["font"]) 
-            case FontPurpose.DESCRIPTIVE_LIST_DESCRIPTION:
+            case FontPurpose.TOP_BAR_TEXT | FontPurpose.BATTERY_PERCENT | FontPurpose.GRID_ONE_ROW | \
+                FontPurpose.GRID_MULTI_ROW | FontPurpose.LIST | FontPurpose.DESCRIPTIVE_LIST_TITLE | FontPurpose.DESCRIPTIVE_LIST_DESCRIPTION:
                 return os.path.join(self.path,self.grid["font"]) 
             case _:
                 return os.path.join(self.path,self.list["font"]) 
     
     def get_font_size(self, font_purpose : FontPurpose):
         match font_purpose:
-            case FontPurpose.TOP_BAR_TEXT:
-                return self.list["size"]
-            case FontPurpose.BATTERY_PERCENT:
+            case FontPurpose.TOP_BAR_TEXT | FontPurpose.BATTERY_PERCENT | FontPurpose.LIST | FontPurpose.DESCRIPTIVE_LIST_TITLE:
                 return self.list["size"]
             case FontPurpose.GRID_ONE_ROW:
                 return self.grid["grid1x4"]
-            case FontPurpose.GRID_MULTI_ROW:
-                return self.grid["grid3x4"]
-            case FontPurpose.LIST:
-                return self.list["size"]
-            case FontPurpose.DESCRIPTIVE_LIST_TITLE:
-                return self.list["size"]
-            case FontPurpose.DESCRIPTIVE_LIST_DESCRIPTION:
+            case FontPurpose.GRID_MULTI_ROW | FontPurpose.DESCRIPTIVE_LIST_DESCRIPTION:
                 return self.grid["grid3x4"]
             case _:
                 return self.list["font"]
@@ -180,20 +161,8 @@ class Theme():
 
     def text_color(self, font_purpose : FontPurpose):
         match font_purpose:
-            case FontPurpose.TOP_BAR_TEXT:
+            case FontPurpose.TOP_BAR_TEXT | FontPurpose.BATTERY_PERCENT:
                 return self.hex_to_color(self.grid["selectedcolor"])
-            case FontPurpose.BATTERY_PERCENT:
-                return self.hex_to_color(self.grid["selectedcolor"])
-            case FontPurpose.GRID_ONE_ROW:
-                return self.hex_to_color(self.grid["color"])
-            case FontPurpose.GRID_MULTI_ROW:
-                return self.hex_to_color(self.grid["color"])
-            case FontPurpose.LIST:
-                return self.hex_to_color(self.grid["color"])
-            case FontPurpose.DESCRIPTIVE_LIST_TITLE:
-                return self.hex_to_color(self.grid["color"])
-            case FontPurpose.DESCRIPTIVE_LIST_DESCRIPTION:
-                return self.hex_to_color(self.grid["color"])
             case _:
                 return self.hex_to_color(self.grid["color"])
       
