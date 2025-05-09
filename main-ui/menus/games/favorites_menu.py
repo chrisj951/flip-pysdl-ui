@@ -13,21 +13,17 @@ class FavoritesMenu(RomsMenuCommon):
         super().__init__(display,controller,device,theme)
 
     def _get_rom_list(self) -> list[GridOrListEntry]:
-        rom_list = []
-        favorites = self.device.parse_favorites()
-        for favorite in favorites:
-            rom_file_name = os.path.basename(favorite.rom_path)
-            img_path = self._get_image_path(favorite.rom_path)
-            rom_list.append(
-                GridOrListEntry(
-                    primary_text=self._remove_extension(rom_file_name)  +" (" + self._extract_game_system(favorite.rom_path)+")",
-                    image_path=img_path,
-                    image_path_selected=img_path,
-                    description="Favorite", 
-                    icon=None,
-                    value=favorite.rom_path)
+        return [
+            GridOrListEntry(
+                primary_text=f"{self._remove_extension(os.path.basename(recent.rom_path))} ({self._extract_game_system(recent.rom_path)})",
+                image_path=(img_path := self._get_image_path(favorite.rom_path)),
+                image_path_selected=img_path,
+                description="Favorite", 
+                icon=None,
+                value=favorite.rom_path
             )
-        return rom_list
+            for favorite in self.device.parse_favorites()
+        ]
 
     def run_rom_selection(self) :
         self._run_rom_selection("Favorites")
