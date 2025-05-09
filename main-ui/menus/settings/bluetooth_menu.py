@@ -76,18 +76,18 @@ class BluetoothMenu:
                     self.should_scan_for_bluetooth = False
                     devices = self.scan_for_devices()
 
-                for device in devices:
-                    option_list.append(
-                        GridOrListEntry(
-                                primary_text=device.name,
-                                value_text=device.address,
-                                image_path=None,
-                                image_path_selected=None,
-                                description=None,
-                                icon=None,
-                                value=lambda device=device: self.toggle_pairing_device(device)  
-                            )
+                option_list.extend(
+                    GridOrListEntry(
+                        primary_text=device.name,
+                        value_text=device.address,
+                        image_path=None,
+                        image_path_selected=None,
+                        description=None,
+                        icon=None,
+                        value=lambda device=device: self.toggle_pairing_device(device)  
                     )
+                    for device in devices
+                )
 
             list_view = self.view_creator.create_view(
                     view_type=ViewType.DESCRIPTIVE_LIST_VIEW,
