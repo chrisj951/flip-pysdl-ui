@@ -568,7 +568,7 @@ class MiyooFlip(Device):
     
     @throttle.limit_refresh(15)
     def get_battery_percent(self):
-        with open("sys/class/power_supply/battery/capacity", "r") as f:
+        with open("/sys/class/power_supply/battery/capacity", "r") as f:
             return int(f.read().strip()) 
     
     def get_app_finder(self):
