@@ -15,7 +15,7 @@ class FavoritesMenu(RomsMenuCommon):
     def _get_rom_list(self) -> list[GridOrListEntry]:
         return [
             GridOrListEntry(
-                primary_text=f"{self._remove_extension(os.path.basename(recent.rom_path))} ({self._extract_game_system(recent.rom_path)})",
+                primary_text=f"{self._remove_extension(os.path.basename(favorite.rom_path))} ({self._extract_game_system(favorite.rom_path)})",
                 image_path=(img_path := self._get_image_path(favorite.rom_path)),
                 image_path_selected=img_path,
                 description="Favorite", 
