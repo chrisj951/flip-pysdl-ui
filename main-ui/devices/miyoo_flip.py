@@ -191,10 +191,8 @@ class MiyooFlip(Device):
 
     @property
     def brightness(self):
-        true_brightness = subprocess.check_output(
-                ["cat", "/sys/class/backlight/backlight/brightness"],
-                text=True
-            ).strip()
+        with open("/sys/class/backlight/backlight/brightness", "r") as f:
+            true_brightness = f.read().strip()
         return self._map_system_brightness_to_miyoo_scale(int(true_brightness))
 
     def lower_contrast(self):
@@ -353,10 +351,8 @@ class MiyooFlip(Device):
 
     def get_wifi_connection_quality_info(self) -> WiFiConnectionQualityInfo:
         try:
-            output = subprocess.check_output(
-                ["cat", "/proc/net/wireless"],
-                text=True
-            ).strip().splitlines()
+            with open("/proc/net/wireless", "r"):
+                output = [line.strip() for line in f.readlines()]
             
             if len(output) >= 3:
                 # The 3rd line contains the actual wireless stats
@@ -565,23 +561,15 @@ class MiyooFlip(Device):
 
     @throttle.limit_refresh(5)
     def get_charge_status(self):
-        output = subprocess.check_output(
-            ["cat", "/sys/class/power_supply/ac/online"],
-            text=True
-        )
+        with open("/sys/class/power_supply/ac/online", "r") as f:
+            ac_online = int(f.read().strip())
 
-        if(1 == int(output.strip())):
-           return ChargeStatus.CHARGING
-        else:
-            return ChargeStatus.DISCONNECTED
+        return ChargeStatus.CHARGING if ac_online == 1 else ChargeStatus.DISCONNECTED
     
     @throttle.limit_refresh(15)
     def get_battery_percent(self):
-        output = subprocess.check_output(
-            ["cat", "/sys/class/power_supply/battery/capacity"],
-            text=True
-        )
-        return int(output.strip()) 
+        with open("sys/class/power_supply/battery/capacity", "r") as f:
+            return int(f.read().strip()) 
     
     def get_app_finder(self):
         return MiyooAppFinder()
