@@ -59,19 +59,17 @@ class BluetoothMenu:
         while(selected is not None):
             print(f"Waiting for bt selection")
             bluetooth_enabled = self.device.is_bluetooth_enabled()
-            option_list = []
-            option_list.append(
+            option_list = [
                 GridOrListEntry(
-                        primary_text="Status",
-                        value_text="<    " + ("On" if bluetooth_enabled else "Off") + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.bluetooth_adjust
-                    )
-            )
-            
+                    primary_text="Status",
+                    value_text="<    " + ("On" if bluetooth_enabled else "Off") + "    >",
+                    image_path=None,
+                    image_path_selected=None,
+                    description=None,
+                    icon=None,
+                    value=self.bluetooth_adjust
+                )
+            ]
 
             if(bluetooth_enabled):
                 if(self.should_scan_for_bluetooth):
