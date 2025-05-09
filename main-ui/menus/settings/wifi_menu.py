@@ -71,19 +71,17 @@ network={{
         connected_is_5ghz = False
         while(selected is not None):
             wifi_enabled = self.device.is_wifi_enabled()
-            option_list = []
-            option_list.append(
+            option_list = [
                 GridOrListEntry(
-                        primary_text="Status",
-                        value_text="<    " + ("On" if wifi_enabled else "Off") + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.wifi_adjust
-                    )
-            )
-            
+                    primary_text="Status",
+                    value_text="<    " + ("On" if wifi_enabled else "Off") + "    >",
+                    image_path=None,
+                    image_path_selected=None,
+                    description=None,
+                    icon=None,
+                    value=self.wifi_adjust
+                )
+            ]
 
             if(wifi_enabled):
                 self.display.clear("WiFi")
