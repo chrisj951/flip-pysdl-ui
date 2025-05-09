@@ -26,7 +26,6 @@ class GameSelectMenu(RomsMenuCommon):
         return [str(Path(favorite.rom_path).resolve()) for favorite in self.device.parse_favorites()]
         
     def _get_rom_list(self) -> list[GridOrListEntry]:
-        rom_list = []
         favorites = self._build_favorites_dict()
         start_time = time.time()
 
