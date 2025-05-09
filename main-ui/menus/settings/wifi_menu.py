@@ -103,18 +103,18 @@ network={{
                     if(connected_freq is not None and connected_freq >= 5000 and connected_freq <= 6000):
                         connected_is_5ghz = True
 
-                option_list.extend(
-                    GridOrListEntry(
-                        primary_text=f"{net.ssid} (5Ghz)" if (is_5ghz := (5000 <= net.frequency <= 6000)) else net.ssid,
-                        value_text="✓" if connected_ssid == net.ssid and is_5ghz == connected_is_5ghz else None,
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=lambda net=net: self.switch_network(net)
+                    option_list.extend(
+                        GridOrListEntry(
+                            primary_text=f"{net.ssid} (5Ghz)" if (is_5ghz := (5000 <= net.frequency <= 6000)) else net.ssid,
+                            value_text="✓" if connected_ssid == net.ssid and is_5ghz == connected_is_5ghz else None,
+                            image_path=None,
+                            image_path_selected=None,
+                            description=None,
+                            icon=None,
+                            value=lambda net=net: self.switch_network(net)
+                        )
+                        for net in networks
                     )
-                    for net in networks
-                )
 
             list_view = self.view_creator.create_view(
                     view_type=ViewType.DESCRIPTIVE_LIST_VIEW,
