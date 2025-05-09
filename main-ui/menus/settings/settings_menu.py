@@ -116,120 +116,96 @@ class SettingsMenu:
         self.config.save()
 
     def build_options_list(self):
-        option_list = []
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Brightness",
-                        value_text="<    " + str(self.device.brightness) + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.brightness_adjust
-                    )
+        return [
+            GridOrListEntry(
+                primary_text="Brightness",
+                value_text="<    " + str(self.device.brightness) + "    >",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.brightness_adjust
+            ),
+            GridOrListEntry(
+                primary_text="Contrast",
+                value_text="<    " + str(self.device.contrast) + "    >",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.contrast_adjust
+            ),
+            GridOrListEntry(
+                primary_text="Saturation",
+                value_text="<    " + str(self.device.saturation) + "    >",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.saturation_adjust
+            ),
+            GridOrListEntry(
+                primary_text="Volume",
+                value_text="<    " + str(self.device.get_volume()) + "    >",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.volume_adjust
+            ),
+            GridOrListEntry(
+                primary_text="WiFi",
+                value_text="<    " + ("On" if self.device.is_wifi_enabled() else "Off") + "    >",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.show_wifi_menu
+            ),
+            GridOrListEntry(
+                primary_text="Bluetooth",
+                value_text="<    " + ("On" if self.device.is_bluetooth_enabled() else "Off") + "    >",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.show_bt_menu
+            ),
+            GridOrListEntry(
+                primary_text="Theme",
+                value_text="<    " + self.config["theme"] + "    >",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.change_theme
+            ),
+            GridOrListEntry(
+                primary_text="On Screen Keyboard",
+                value_text=None,
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.show_on_screen_keyboard
+            ),
+            GridOrListEntry(
+                primary_text="Power Off",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.shutdown
+            ),
+            GridOrListEntry(
+                primary_text="Reboot",
+                image_path=None,
+                image_path_selected=None,
+                description=None,
+                icon=None,
+                value=self.reboot
             )
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Contrast",
-                        value_text="<    " + str(self.device.contrast) + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.contrast_adjust
-                    )
-            )
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Saturation",
-                        value_text="<    " + str(self.device.saturation) + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.saturation_adjust
-                    )
-            )
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Volume",
-                        value_text="<    " + str(self.device.get_volume()) + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.volume_adjust
-                    )
-            )
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="WiFi",
-                        value_text="<    " + ("On" if self.device.is_wifi_enabled() else "Off") + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.show_wifi_menu
-                    )
-            )
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Bluetooth",
-                        value_text="<    " + ("On" if self.device.is_bluetooth_enabled() else "Off") + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.show_bt_menu
-                    )
-            )
-            
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Theme",
-                        value_text="<    " + self.config["theme"] + "    >",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.change_theme
-                    )
-            )
-
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="On Screen Keyboard",
-                        value_text=None,
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.show_on_screen_keyboard
-                    )
-            )
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Power Off",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.shutdown
-                    )
-            )
-        option_list.append(
-                GridOrListEntry(
-                        primary_text="Reboot",
-                        image_path=None,
-                        image_path_selected=None,
-                        description=None,
-                        icon=None,
-                        value=self.reboot
-                )
-        )
-        
-        return option_list
-
+        ]
 
     def show_menu(self) :
         selected = Selection(None, None, 0)
