@@ -29,7 +29,7 @@ class ProcessRunner:
         return result
 
     @classmethod
-    def killall(cls, name: str, sig: int = 15) -> None
+    def killall(cls, name: str, sig: int = 15) -> None:
         for proc in psutil.process_iter():
             if proc.name == name and proc.pid != os.getpid():
                 proc.send_signal(sig)
