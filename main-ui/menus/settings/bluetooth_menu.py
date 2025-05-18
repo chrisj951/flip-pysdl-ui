@@ -72,7 +72,7 @@ class BluetoothMenu:
                     devices = self.scan_for_devices()
                     selected.index = 0
                     
-                    option_list.extend(
+                    option_list.extend([
                         GridOrListEntry(
                                 primary_text=device.name,
                                 value_text=device.address,
@@ -83,7 +83,7 @@ class BluetoothMenu:
                                 value=lambda device=device: self.toggle_pairing_device(device)  
                             )
                         for device in devices
-                    )
+                    ])
 
             list_view = ViewCreator.create_view(
                     view_type=ViewType.ICON_AND_DESC,
