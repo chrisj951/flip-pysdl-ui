@@ -641,13 +641,13 @@ class MiyooFlip(DeviceCommon):
 
     def stop_wifi_services(self):
         PyUiLogger.get_logger().info("Stopping WiFi Services")
-        ProcessRunner.run(['killall', '-15', 'wpa_supplicant'])
+        ProcessRunner.killall("wpa_supplicant", 15)
         time.sleep(0.1)  
-        ProcessRunner.run(['killall', '-9', 'wpa_supplicant'])
+        ProcessRunner.killall("wpa_supplicant", 9)
         time.sleep(0.1)  
-        ProcessRunner.run(['killall', '-15', 'udhcpc'])
+        ProcessRunner.killall("udhcpc", 15)
         time.sleep(0.1)  
-        ProcessRunner.run(['killall', '-9', 'udhcpc'])
+        ProcessRunner.killall("udhcpc", 9)
         time.sleep(0.1)  
         self.set_wifi_power(0)
 
@@ -762,9 +762,9 @@ class MiyooFlip(DeviceCommon):
     
     
     def disable_bluetooth(self):
-        ProcessRunner.run(["killall","-15","bluetoothd"])
+        ProcessRunner.killall("bluetoothd", 15)
         time.sleep(0.1)  
-        ProcessRunner.run(["killall","-9","bluetoothd"])
+        ProcessRunner.killall("bluetoothd", 9)
 
     def enable_bluetooth(self):
         if(not self.is_bluetooth_enabled()):
