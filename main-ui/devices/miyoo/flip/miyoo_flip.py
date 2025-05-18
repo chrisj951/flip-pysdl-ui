@@ -10,6 +10,7 @@ from devices.bluetooth.bluetooth_scanner import BluetoothScanner
 from devices.charge.charge_status import ChargeStatus
 from devices.device_common import DeviceCommon
 import os
+import psutil
 from devices.miyoo.flip.miyoo_flip_poller import MiyooFlipPoller
 from devices.miyoo.miyoo_games_file_parser import MiyooGamesFileParser
 from devices.miyoo.system_config import SystemConfig
@@ -657,9 +658,8 @@ class MiyooFlip(DeviceCommon):
 
     def start_wpa_supplicant(self):
         try:
-            # Check if wpa_supplicant is running using ps -f
-            result = self.get_running_processes()
-            if 'wpa_supplicant' in result.stdout:
+            # Check if wpa_supplicant is running
+            if any(p.name == "wpa_supplicant" for p in psutil.process_iter()):
                 return
 
             # If not running, start it in the background
@@ -677,9 +677,8 @@ class MiyooFlip(DeviceCommon):
 
     def start_udhcpc(self):
         try:
-            # Check if wpa_supplicant is running using ps -f
-            result = self.get_running_processes()
-            if 'udhcpc' in result.stdout:
+            # Check if wpa_supplicant is running
+            if any(p.name == "udhcpc" for p in psutil.process_iter()):
                 return
 
             # If not running, start it in the background
@@ -752,10 +751,7 @@ class MiyooFlip(DeviceCommon):
     
     def is_bluetooth_enabled(self):
         try:
-            # Run 'ps' to check for bluetoothd process
-            result = self.get_running_processes()
-            # Check if bluetoothd is in the process list
-            return 'bluetoothd' in result.stdout
+            return any(p.name == "bluetoothd" for p in psutil.process_iter())
         except Exception as e:
             PyUiLogger.get_logger().error(f"Error checking bluetoothd status: {e}")
             return False
