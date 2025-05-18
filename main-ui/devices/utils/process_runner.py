@@ -2,6 +2,7 @@
 
 import inspect
 import os
+import psutil
 import subprocess
 from utils.logger import PyUiLogger
 
@@ -26,3 +27,9 @@ class ProcessRunner:
                 PyUiLogger.get_logger().error(f"{caller} stderr: {result.stderr.strip()}")
 
         return result
+
+    @classmethod
+    def killall(cls, name: str, sig: int = 15) -> None:
+        for proc in psutil.process_iter():
+            if proc.name == name and proc.pid != os.getpid():
+                proc.send_signal(sig)

@@ -11,6 +11,7 @@ from controller.controller_inputs import ControllerInput
 from devices.charge.charge_status import ChargeStatus
 from devices.device_common import DeviceCommon
 import os
+import psutil
 from devices.miyoo.miyoo_games_file_parser import MiyooGamesFileParser
 from devices.miyoo.system_config import SystemConfig
 from devices.utils.process_runner import ProcessRunner
@@ -565,13 +566,13 @@ class TrimUIBrick(DeviceCommon):
 
     def stop_wifi_services(self):
         PyUiLogger.get_logger().info("Stopping WiFi Services")
-        ProcessRunner.run(['killall', '-15', 'wpa_supplicant'])
+        ProcessRunner.killall("wpa_supplicant", 15)
         time.sleep(0.1)  
-        ProcessRunner.run(['killall', '-9', 'wpa_supplicant'])
+        ProcessRunner.killall("wpa_supplicant", 9)
         time.sleep(0.1)  
-        ProcessRunner.run(['killall', '-15', 'udhcpc'])
+        ProcessRunner.killall("udhcpc", 15)
         time.sleep(0.1)  
-        ProcessRunner.run(['killall', '-9', 'udhcpc'])
+        ProcessRunner.killall("udhcpc", 9)
         time.sleep(0.1)  
         self.set_wifi_power(0)
 
@@ -581,9 +582,8 @@ class TrimUIBrick(DeviceCommon):
 
     def start_wpa_supplicant(self):
         try:
-            # Check if wpa_supplicant is running using ps -f
-            result = self.get_running_processes()
-            if 'wpa_supplicant' in result.stdout:
+            # Check if wpa_supplicant is running
+            if any(p.name == "wpa_supplicant" for p in psutil.process_iter()):
                 return
 
             # If not running, start it in the background
@@ -601,9 +601,8 @@ class TrimUIBrick(DeviceCommon):
 
     def start_udhcpc(self):
         try:
-            # Check if wpa_supplicant is running using ps -f
-            result = self.get_running_processes()
-            if 'udhcpc' in result.stdout:
+            # Check if udhcpc is running
+            if any(p.name == "udhcpc" for p in psutil.process_iter()):
                 return
 
             # If not running, start it in the background
